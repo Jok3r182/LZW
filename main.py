@@ -14,7 +14,7 @@ def compareBits(withCompression, withoutCompression):
 def LZWCompression(input):
     dict_size = 256
 
-    # utf-16 chr mes istatydami sk gauname raide, gauname dictionary a:a tarkim, jog paskui pagal
+    # utf-16 chr mes istatydami sk gauname raide, gauname dictionary a:97 tarkim, jog paskui pagal
     # turima value galetume priskirti reiksme
 
     dictionary = dict((chr(i), i) for i in range(dict_size))
@@ -34,6 +34,7 @@ def LZWCompression(input):
             print(string + "\t\t" + char + "\t\t" + string + "\t\t" + phrase)
             string = char
     if string:
+        #paskutiniai raidei prideti nes visada pridedavome viena maziau pries tai tarkim kai buvo ma mes idedavome m
         result.append(dictionary[string])
         withCompression = intToBinary(result)
         withoutCompression = stringToBinary(input)
