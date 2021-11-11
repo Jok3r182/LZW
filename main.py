@@ -1,43 +1,36 @@
-
-def intToBinary(list):
-    return ''.join(bin(code) for code in list)
-
-
-def stringToBinary(list):
-    return ''.join(bin(ord(char)) for char in list)
+def intToBinary(result):
+    return ''.join(bin(code) for code in result)
 
 
-def compareBits(withCompression, withoutCompression):
-    return len(withoutCompression) - len(withCompression)
+def stringToBinary(result):
+    return ''.join(bin(ord(char)) for char in result)
 
 
-def LZWCompression(input):
+def compareBits(with_compression, without_compression):
+    return len(without_compression) - len(with_compression)
+
+
+def LZWCompression(user_input):
     dict_size = 256
-
-    # utf-16 chr mes istatydami sk gauname raide, gauname dictionary a:97 tarkim, jog paskui pagal
-    # turima value galetume priskirti reiksme
-
     dictionary = dict((chr(i), i) for i in range(dict_size))
-    string = ""
+    temp_dictionary = ""
     result = []
     print("Input\tNext\tOutput\tDictionary")
-    for char in input:
-        phrase = string + char
-        # ar fraze yra arba raide
+    for char in user_input:
+        phrase = temp_dictionary + char
         if phrase in dictionary:
-            string = phrase
+            temp_dictionary = phrase
         else:
-            result.append(dictionary[string])
-            # sukuriame dictioneryje reiksme su size, nes tokia value neegzistuoja
+            result.append(dictionary[temp_dictionary])
             dictionary[phrase] = dict_size
             dict_size += 1
-            print(string + "\t\t" + char + "\t\t" + string + "\t\t" + phrase)
-            string = char
-    if string:
-        #paskutiniai raidei prideti nes visada pridedavome viena maziau pries tai tarkim kai buvo ma mes idedavome m
-        result.append(dictionary[string])
+            print(temp_dictionary + "\t\t" + char + "\t\t" + temp_dictionary + "\t\t" + phrase)
+            temp_dictionary = char
+
+    if temp_dictionary:
+        result.append(dictionary[temp_dictionary])
         withCompression = intToBinary(result)
-        withoutCompression = stringToBinary(input)
+        withoutCompression = stringToBinary(user_input)
         print("\nWithout Compression = " + withoutCompression)
         print("With Compression = " + withCompression)
         print("Difference = " + str(compareBits(withCompression, withoutCompression)) + " bits\n")
